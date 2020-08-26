@@ -1,0 +1,297 @@
+Var1	Freq
+Acne (severe)	5
+Adiponectin levels	1
+Adiposity	2
+Adverse response to chemotherapy in breast cancer (alopecia) (anti-microtubule)	3
+Adverse response to chemotherapy in breast cancer (alopecia) (docetaxel)	1
+Adverse response to chemotherapy in breast cancer (alopecia) (paclitaxel)	1
+Age of smoking initiation	1
+Age-related macular degeneration	2
+Alcohol and nictotine co-dependence	1
+Alcohol dependence	1
+Allergic rhinitis	6
+Allergic sensitization	1
+Alopecia areata	2
+Amyotrophic lateral sclerosis	4
+Amyotrophic lateral sclerosis (sporadic)	2
+Anger	4
+Ankylosing spondylitis	3
+Anti-cyclic Citrullinated Peptide Antibody	1
+Aortic root size	1
+Asperger disorder	1
+Aspirin exacerbated respiratory disease in asthmatics	2
+Asthma (corticosteroid response)	1
+Asthma (sex interaction)	1
+Atopic dermatitis	3
+Atrial fibrillation/atrial flutter	1
+Attention deficit hyperactivity disorder	1
+Attention deficit hyperactivity disorder and conduct disorder	2
+Autoimmune hepatitis type-1	3
+Barrett's esophagus	1
+Basal cell carcinoma	3
+Behavioural disinhibition (generation interaction)	1
+Behcet's disease	3
+Beta-2 microglubulin plasma levels	3
+Biochemical measures	1
+Bipolar disorder	2
+Bipolar disorder and schizophrenia	4
+Bipolar disorder with mood-incongruent psychosis	2
+Black vs. red hair color	2
+Bladder cancer	6
+Blond vs. brown hair color	1
+Blood metabolite levels	12
+Blood metabolite ratios	2
+Blood pressure	5
+Body mass index	2
+Body mass index (interaction)	1
+Bone mineral density	12
+Bone mineral density (hip)	1
+Bone mineral density (paediatric, total body less head)	1
+Brain structure (temporal lobe volume)	1
+Breast cancer	13
+Breast Cancer in BRCA1 mutation carriers	2
+Bronchopulmonary dysplasia	1
+C-reactive protein	2
+C-reactive protein levels	2
+Calcium levels	3
+Cardiac Troponin-T levels	3
+Carotid atherosclerosis in HIV infection	1
+CD4:CD8 lymphocyte ratio	2
+Celiac disease	2
+Celiac disease and Rheumatoid arthritis	2
+Cervical cancer	3
+Cholesterol, total	3
+Chronic hepatitis B infection	2
+Chronic kidney disease	8
+Chronic obstructive pulmonary disease-related biomarkers	3
+Chronic periodontitis	1
+Circulating myeloperoxidase levels (plasma)	1
+Cognitive decline (age-related)	1
+Cognitive performance	3
+Colorectal cancer	11
+Common traits (Other)	1
+Complement C3 and C4 levels	2
+Conduct disorder (interaction)	1
+Conduct disorder (symptom count)	1
+Corneal structure	2
+Coronary artery calcification	2
+Coronary artery disease or large artery stroke	2
+Coronary heart disease	6
+Crohn's disease	15
+Cutaneous nevi	2
+Cystatin C	1
+Cystic fibrosis severity	4
+Cystic fibrosis-related diabetes	1
+Dehydroepiandrosterone sulphate levels	1
+Dental caries	3
+Diabetic retinopathy	2
+Digestive system disease (Barrett's esophagus and esophageal adenocarcinoma combined)	1
+Dilated cardiomyopathy	1
+Disc degeneration (lumbar)	5
+DNA methylation (variation)	1
+Drug-induced liver injury (amoxicillin-clavulanate)	1
+Dupuytren's disease	5
+Eating disorders (purging via substances)	1
+Educational attainment	7
+Endometriosis	4
+Endothelial function traits	1
+Entorhinal cortical thickness	1
+Erectile dysfunction and prostate cancer treatment	1
+Esophageal cancer	1
+Esophageal cancer and gastric cancer	3
+Estradiol plasma levels (breast cancer)	3
+Fasting glucose-related traits	4
+Fasting insulin-related traits (interaction with BMI)	1
+Fasting plasma glucose	1
+Fat body mass	2
+Fibrinogen	2
+Follicular lymphoma	2
+Follicule stimulating hormone	1
+Food antigen IgG levels	3
+Gamma gluatamyl transferase levels	6
+Graves' disease	1
+Hair color	1
+HDL cholesterol	4
+Heart failure	2
+Height	30
+Hematological parameters	6
+Hemostatic factors and hematological phenotypes	1
+Hepatitis B	3
+Hepatocellular carcinoma	1
+Heschl's gyrus morphology	3
+Hip geometry	2
+HIV-1 control	1
+HIV-1 viral setpoint	2
+Hodgkin's lymphoma	2
+Homoarginine levels	1
+Homocysteine levels	1
+Hypothyroidism	3
+IgE grass sensitization	1
+IgE levels	5
+IgG glycosylation	13
+Infantile hypertrophic pyloric stenosis	3
+Inflammatory biomarkers	2
+Inflammatory bowel disease	8
+Interstitial lung disease	3
+Intracranial aneurysm	3
+LDL cholesterol	1
+Lipid metabolism phenotypes	1
+Lipoprotein-associated phospholipase A2 activity and mass	2
+Liver enzyme levels (alanine transaminase)	1
+Liver enzyme levels (alkaline phosphatase)	1
+Liver enzyme levels (gamma-glutamyl transferase)	1
+Longevity	9
+Lp (a) levels	2
+Lung cancer	3
+Lymphoma	4
+Major CVD	1
+Major depressive disorder	5
+Matrix metalloproteinase levels	1
+Mean corpuscular hemoglobin	1
+Mean corpuscular volume	4
+Mean platelet volume	2
+Menarche (age at onset)	5
+Metabolic syndrome	3
+Metabolite levels  (X-11787)	1
+Metabolite levels (HVA)	1
+Metabolite levels (HVA/5-HIAA ratio)	2
+Metabolite levels (HVA/MHPG ratio)	1
+Metabolite levels (Pyroglutamine)	2
+Methotrexate phramacokinetics (acute lymphoblastic leukemia)	3
+Migraine	5
+Migraine - clinic-based	3
+Migraine with aura	5
+Migraine without aura	1
+Monocyte count	2
+Multiple myeloma (hyperdiploidy)	1
+Multiple myeloma (IgH translocation)	1
+Multiple sclerosis	11
+Multiple sclerosis (OCB status)	5
+Myopia (pathological)	2
+Narcolepsy	1
+Narcolepsy (age of onset)	1
+Narcolepsy with cataplexy	1
+Nasopharyngeal carcinoma	3
+Nephropathy	1
+Neutrophil count	1
+Nicotine dependence	1
+Non-albumin protein levels	1
+Non-alcoholic fatty liver disease histology (other)	1
+Non-obstructive azoospermia	1
+Obesity	3
+Obesity-related traits	20
+Osteoarthritis	2
+Other erythrocyte phenotypes	1
+Ovarian reserve	2
+Paclitaxel-induced neuropathy	1
+Pain	2
+Palmitic acid (16:0) plasma levels	1
+Palmitoleic acid (16:1n-7) plasma levels	2
+Pancreatic cancer	5
+Panic disorder	2
+Parkinson's disease (motor and cognition)	1
+PCA3 expression level	2
+Periodontal microbiota	1
+Periodontitis (CDC/AAP)	2
+Personality dimensions	2
+Plasma homocysteine levels (post-methionine load test)	1
+Plasminogen activator inhibitor type 1 levels (PAI-1)	1
+Platelet aggregation	5
+Platelet counts	12
+PR interval	1
+Preeclampsia	1
+Primary biliary cirrhosis	3
+Primary tooth development (number of teeth)	2
+Proinsulin levels	1
+Prostate cancer	20
+Prostate cancer (early onset)	6
+Prostate cancer (gene x gene interaction)	3
+Prostate-specific antigen levels	1
+Protein biomarker	2
+Protein quantitative trait loci	1
+Psoriasis	5
+Psychosis (atypical)	1
+Pulmonary function (interaction)	1
+Pulmonary function in asthmatics	2
+QT interval	2
+QT interval (interaction)	1
+Quantitative traits	3
+Recombination rate (females)	1
+Red blood cell traits	1
+Refractive error	1
+Response to acetaminophen (hepatotoxicity)	2
+Response to amphetamines	1
+Response to antidepressant treatment	2
+Response to antineoplastic agents	1
+Response to antipsychotic therapy (extrapyramidal side effects)	1
+Response to antipsychotic treatment	3
+Response to citalopram treatment	1
+Response to diuretic therapy	2
+Response to irinotecan and platinum-based chemotherapy in non-small-cell lung cancer	1
+Response to metformin	1
+Response to methotrexate in juvenile idiopathic arthritis	1
+Response to methotrexate in rheumatoid arthritis	1
+Response to platinum-based chemotherapy (carboplatin)	1
+Response to protease inhibitor treatment in hepatitis c (bilirubin toxicity)	2
+Response to serotonin reuptake inhibitors in major depressive disorder (plasma drug and metabolite levels)	1
+Response to statin therapy	1
+Response to statin therapy (LDL-C)	1
+Response to taxane treatment (docetaxel)	1
+Response to taxane treatment (placlitaxel)	4
+Rheumatoid arthritis	11
+RR interval (heart rate)	1
+rs10916814	1
+rs1402915	1
+Schizophrenia	13
+Select biomarker traits	1
+Self-reported allergy	1
+Serum albumin level	1
+Serum metabolite levels	2
+Serum prostate-specific antigen levels	1
+Serum protein levels (sST2)	1
+Serum thyroid-stimulating hormone levels	1
+Serum total protein level	1
+Sex hormone-binding globulin levels	1
+Smoking behavior	6
+Smoking quantity	1
+Social communication problems	5
+Sudden cardiac arrest	2
+Suicide risk	4
+Systemic lupus erythematosus	8
+Systemic lupus erythematosus and Systemic sclerosis	2
+Systemic sclerosis	4
+Systolic blood pressure	1
+Systolic blood pressure (alcohol consumption interaction)	1
+Tanning	1
+Telomere length	6
+Thiazide-induced adverse metabolic effects in hypertensive patients	4
+Thrombin generation potential phenotypes	2
+Thyroid hormone levels	1
+Thyroid volume	1
+Tonometry	1
+Treatment response for severe sepsis	2
+Triglycerides	2
+Tuberculosis	1
+Tumor biomarkers	1
+Type 1 diabetes	6
+Type 1 diabetes autoantibodies	1
+Type 2 diabetes	4
+Ulcerative colitis	20
+Urate levels	1
+Uric acid levels	3
+Urinary albumin excretion	1
+Vascular endothelial growth factor levels	2
+Venous thromboembolism (gene x gene interaction)	2
+Vertical cup-disc ratio	13
+Visceral adipose tissue adjusted for BMI	3
+Visceral adipose tissue/subcutaneous adipose tissue ratio	1
+Vitiligo	8
+Volumetric brain MRI	3
+vWF and FVIII levels	1
+Waist-hip ratio	2
+Waist-to-hip circumference ratio (interaction)	1
+Wegener's granulomatosis	1
+White blood cell count	5
+White blood cell types	1
+White matter integrity (interaction)	1
+YKL-40 levels	1
