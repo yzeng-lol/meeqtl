@@ -1,6 +1,6 @@
 #' find_eqtl_tests
 #'
-#' This will run matrixeQTL
+#' This will run matrixeQTL for methylation-dependent eQTL
 #' @name run_matrixeqtl
 #' @param x eqtl dataframe, e.g., res$gene
 #' @param file_edata path to edata file
@@ -10,8 +10,8 @@
 #' @param file_tss path to TSS bed file
 #' @param geneSnpMaxDistance max distance between snp and gene, default 500000
 #' @param cpgSnpMaxDistance max distance between snp and probe, default 500000
-#' @param file_atac path to file overlappign snp and ATAC
-#' @param file_ctcf path to file overlapping cpgs and ctcf peaks in ENCODE
+#' @param file_atac path to overlappiing file of snp and ATAC-seq peaks
+#' @param file_ctcf path to overlappiing file of cpgs and ctcf peaks in ENCODE
 #' @import GenomicRanges
 #' @import bigstatsr
 #' @import assertthat
@@ -23,33 +23,48 @@
 #' @importFrom logging loginfo
 #' @export
 #'
-run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci, file_tss, file_atac, file_ctcf, geneSnpMaxDistance = 500000, cpgSnpMaxDistance = 500000){
-    logging::loginfo("Reading files")
+#'
+run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci,
+                           file_tss, file_atac, file_ctcf,
+                           geneSnpMaxDistance = 500000, cpgSnpMaxDistance = 500000)
+{
+    ## read in expression, genotype, methylation matrix ...
+    logging::loginfo("Reading in files ...")
     edata <- read.table(file_edata, header = T, sep = "\t", stringsAsFactors = F)
     gdata <- read.table(file_gdata, header = T, sep = "\t", stringsAsFactors = F)
     mdata <- read.table(file_mdata, header = T, sep = "\t", stringsAsFactors = F)
     snp_atac <- read.table(file_atac, sep = "\t", header = F, stringsAsFactors = F)
     cpg_ctcf <- read.table(file_ctcf, sep = "\t", header = T, stringsAsFactors = F)
 
+    ## CpG sits filtering based on the median beta values
     t <- mdata[,-1]
     logging::loginfo(paste("CpGs found:", nrow(t)))
     mdata <- mdata[apply(t, 1, median)>0.25 & apply(t, 1, median)<0.75, ]
+
     t <- mdata[,-1]
     row.names(t) <- mdata$cpgid
     logging::loginfo(paste("CpGs retained:", nrow(mdata)))
+
+    ## Extenting to CpG site centered "cpgSnpMaxDistance * 2" region
     cpg_loci <- GRanges(unlist(lapply(mdata$cpgid, function(x) strsplit(x, ":")[[1]][1])),
-                        IRanges(as.numeric(unlist(lapply(mdata$cpgid, function(x) strsplit(x, ":")[[1]][2]))), width = 1, names = mdata$cpgid))
+                        IRanges(as.numeric(unlist(lapply(mdata$cpgid, function(x) strsplit(x, ":")[[1]][2]))),
+                        width = 1, names = mdata$cpgid))
     cpg_loci <- ChIPpeakAnno::reCenterPeaks(cpg_loci, cpgSnpMaxDistance * 2)
     start(cpg_loci)[start(cpg_loci)<0] <- 0
+
+    ## read in genotype information
     snp_loci <- read.table(file_snp_loci, sep = "\t", header = F, stringsAsFactors = F)
     snp_loci <- GRanges(snp_loci$V1, IRanges(snp_loci$V2, snp_loci$V3, names = snp_loci$V4))
-    logging::loginfo(paste(length(snp_loci),"SNPs found"))
+    logging::loginfo(paste("SNPs found:", length(snp_loci)))
+
+    ## intersect SNPs with extented CpG region
     snp_loci <- subsetByOverlaps(snp_loci, cpg_loci)
     snppos <- data.frame(snp = names(snp_loci), chr = seqnames(snp_loci), pos = start(snp_loci)) #for matrixeqtl
-    logging::loginfo(paste(length(snp_loci),"SNPs within CpGs"))
+    logging::loginfo(paste("SNPs within extented CpG regions:", length(snp_loci)))
+
+
     tss <- read.table(file_tss, sep = "\t", header = F, stringsAsFactors = F)
     tss <- GRanges(tss$V1, IRanges(tss$V2, tss$V3, names = tss$V4))
-
     geneSnpWindow <- ChIPpeakAnno::reCenterPeaks(snp_loci, geneSnpMaxDistance * 2)
     start(geneSnpWindow)[start(geneSnpWindow)<0] <- 0
     logging::loginfo(paste(length(tss),"genes found"))
@@ -91,7 +106,9 @@ run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci, fi
     cl <- parallel::makeCluster(16)
     doParallel::registerDoParallel(cores = 6)
 
-    eqtls_high <- foreach::foreach (i = 1:length(assoc_snps), .combine = rbind, .packages = "MatrixEQTL") %dopar% {
+    #eqtls_high <- foreach::foreach (i = 1:length(assoc_snps), .combine = rbind, .packages = "MatrixEQTL") %dopar%
+
+    eqtls_high <- foreach::foreach (i = 1:16, .combine = rbind, .packages = "MatrixEQTL") %dopar% {
     #eqtls_high <- rbind(eqtls_high,foreach (i = 1:1000, .combine = rbind, .packages = "MatrixEQTL") %dopar% {
     #eqtls_high <- foreach (i = 1:1000, .combine = rbind, .packages = "MatrixEQTL") %dopar% {
         logging::loginfo(i)
@@ -123,7 +140,10 @@ run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci, fi
             return(meh$cis$eqtls)
         }
     }
+
     save(eqtls_high, file = "data/eqtls_high.Rdata")
+    parallel::stopCluster(cl)
+
     logging::loginfo("Running eQTLs in low group")
     eqtls_low <- foreach::foreach (i = 1:length(assoc_snps), .combine = rbind, .packages = "MatrixEQTL") %dopar% {
         logging::loginfo(i)
@@ -156,6 +176,8 @@ run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci, fi
     }
     save(eqtls_low, file = "data/eqtls_low.Rdata")
     parallel::stopCluster(cl)
+
+
     logging::loginfo("eQTLs done. Preparing result file")
     th <- eqtls_high %>% arrange(cpg, snps,gene)
     tl <- eqtls_low %>% arrange(cpg, snps,gene)
