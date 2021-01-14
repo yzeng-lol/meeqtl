@@ -28,6 +28,10 @@ run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci,
                            file_tss, file_atac, file_ctcf,
                            geneSnpMaxDistance = 500000, cpgSnpMaxDistance = 500000)
 {
+###########################################
+## combination for snp-CpG-gene for testing
+###########################################
+    {
     ## read in expression, genotype, methylation matrix ...
     logging::loginfo("Reading in files ...")
     edata <- read.table(file_edata, header = T, sep = "\t", stringsAsFactors = F)
@@ -76,6 +80,8 @@ run_matrixeqtl <- function(file_edata, file_gdata, file_mdata, file_snp_loci,
     genepos <- data.frame(geneid = names(tss), chr = seqnames(tss), s1 = start(tss), s2 = end(tss))
     row.names(genepos) <- genepos$geneid
     logging::loginfo(paste(length(unique(tss_within_dist$subjectHits)),"genes within SNPs"))
+    }
+
 
     logging::loginfo("Finding SNP CpG overlaps")
     snp_cpg_combo <- findOverlaps(query = snp_loci, subject = cpg_loci)
