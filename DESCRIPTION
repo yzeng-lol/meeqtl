@@ -17,4 +17,5 @@ Imports:
     logging,
     GenomicRanges,
     IRanges,
-    rtracklayer
+    rtracklayer,
+    MatrixEQTL

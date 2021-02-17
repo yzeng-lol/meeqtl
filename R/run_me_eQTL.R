@@ -11,6 +11,8 @@
 #' @param cpgSnpMaxDistance max distance between snp and probe, default 500000
 #' @param cluster_core doParallel core
 #' @import GenomicRanges
+#' @import GenomicFeatures
+#' @import MatrixEQTL
 #' @import bigstatsr
 #' @import assertthat
 #' @importFrom foreach foreach %dopar%
@@ -21,6 +23,7 @@
 #' @importFrom logging loginfo
 #' @export
 
+MatrixEQTL
 
 run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_snp_loci,file_cpg_loci,
                            geneSnpMaxDistance = 500000, cpgSnpMaxDistance = 500000, cluster_core = 2)
