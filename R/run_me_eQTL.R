@@ -9,7 +9,7 @@
 #' @param file_cpg_loci path to CpG bed file
 #' @param geneSnpMaxDistance max distance between snp and gene, default 500000
 #' @param cpgSnpMaxDistance max distance between snp and probe, default 500000
-#' @param cluster_core doParallel core
+#' @param cluster_core doParallel core, default 2 for local
 #' @import GenomicRanges
 #' @import GenomicFeatures
 #' @import bigstatsr
@@ -244,7 +244,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
         cl <- parallel::makeCluster(cluster_core)
         doParallel::registerDoParallel(cores = cluster_core)
 
-        eqtls_me_high <- foreach::foreach (i = 1:10, .combine = rbind, .packages = "MatrixEQTL") %dopar%
+        eqtls_me_high <- foreach::foreach (i = 1:length(cpgs_snps_assoc), .combine = rbind, .packages = "MatrixEQTL") %dopar%
                       {
                             ## Testing processing
                             if (i %% 10 == 0) {
@@ -299,7 +299,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
             cl <- parallel::makeCluster(cluster_core)
             doParallel::registerDoParallel(cores = cluster_core)
 
-            eqtls_me_low <- foreach::foreach (i = 1:10, .combine = rbind, .packages = "MatrixEQTL") %dopar%
+            eqtls_me_low <- foreach::foreach (i = 1:length(cpgs_snps_assoc), .combine = rbind, .packages = "MatrixEQTL") %dopar%
             {
                 ## Testing processing
                 if (i %% 10 == 0) {
@@ -367,6 +367,11 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
         ## combine th and tl
         res <- cbind(th[, c(1, 7, 2, 3:6)], tl[, 3:6])
         colnames(res)[1:3] <- c("snp","cpg", "gene")
+
+        ## only remain me_eqtl either in me_hihg or me_low or both groups
+        idx_rm = res$me_high_eqtl_FDR >= 0.05 & res$me_low_eqtl_FDR >= 0.05
+        idx_rm[is.na(idx_rm)] <- TRUE
+        res <- res[!idx_rm, ]
 
         ## adding eqtl information
         snp_gene <- paste(res$snp, res$gene, sep = "_")
