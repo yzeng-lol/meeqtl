@@ -14,6 +14,7 @@
 #' @import GenomicFeatures
 #' @import bigstatsr
 #' @import assertthat
+#' @import MatrixEQTL
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
