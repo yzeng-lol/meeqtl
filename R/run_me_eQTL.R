@@ -158,6 +158,83 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
     {
 
         ###########################################
+        ##  Running cis eQTLs
+        {
+            logging::loginfo("Running eQTLs  ...")
+
+            ## doParallel
+            cl <- parallel::makeCluster(cluster_core)
+            doParallel::registerDoParallel(cores = cluster_core)
+
+            snps = SlicedData$new()
+            idx_snp <- match(snp4qtl$snp, rownames(gdata))
+            snps$initialize(as.matrix(gdata[idx_snp, ]))
+
+            gene_mat <- t(apply(edata[gene4qtl$gene_name, ], 1, RNOmni::rankNorm))
+            gene = SlicedData$new()
+            gene$initialize(gene_mat)
+
+            eqtl <- Matrix_eQTL_main(
+                snps = snps,
+                gene = gene,
+                snpspos = snp4qtl,
+                genepos = gene4qtl,
+                cvrt = SlicedData$new(),
+                output_file_name = "",
+                output_file_name.cis  = "",
+                pvOutputThreshold = 0,                  ## ignore transQTLs
+                pvOutputThreshold.cis = 1,
+                useModel = modelLINEAR,
+                errorCovariance = numeric(),
+                verbose = TRUE,
+                pvalue.hist = F,
+                cisDist = 500000)
+            cis_eqtls <- eqtl$cis$eqtls
+            save(cis_eqtls, file = "cis_eqtls.Rdata")
+            parallel::stopCluster(cl)
+
+        }
+
+        ###########################################
+        ##  Running cis meQTLs
+        {
+            logging::loginfo("Running meQTLs  ...")
+
+            ## doParallel
+            cl <- parallel::makeCluster(cluster_core)
+            doParallel::registerDoParallel(cores = cluster_core)
+
+            snps = SlicedData$new()
+            idx_snp <- match(snp4qtl$snp, rownames(gdata))
+            snps$initialize(as.matrix(gdata[idx_snp, ]))
+
+            me_mat <- t(apply(mdata[cpg4qtl$cpg, ], 1, RNOmni::rankNorm))
+            cpg_me = SlicedData$new()
+            cpg_me$initialize(me_mat)
+
+            meqtl <- Matrix_eQTL_main(
+                snps = snps,
+                gene = cpg_me,                          ## CpG methylation level
+                snpspos = snp4qtl,
+                genepos = cpg4qtl,                      ## CpG postion
+                cvrt = SlicedData$new(),
+                output_file_name = "",
+                output_file_name.cis  = "",
+                pvOutputThreshold = 0,                  ## ignore transQTLs
+                pvOutputThreshold.cis = 1,
+                useModel = modelLINEAR,
+                errorCovariance = numeric(),
+                verbose = TRUE,
+                pvalue.hist = F,
+                cisDist = 500000)
+            cis_meqtls <- meqtl$cis$eqtls
+            colnames(cis_meqtls)[2] <- "cpg"              ## replacing "gene" to "cpg"
+            save(cis_meqtls, file = "cis_meqtls.Rdata")
+            parallel::stopCluster(cl)
+
+        }
+
+        ###########################################
         ##  Running eQTLs in methylation high group
         {
         logging::loginfo("Running eQTLs in methylation high group ...")
@@ -265,83 +342,6 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
 
             save(eqtls_me_low, file = "eqtls_me_low.Rdata")
             parallel::stopCluster(cl)
-        }
-
-        ###########################################
-        ##  Running cis eQTLs
-        {
-            logging::loginfo("Running eQTLs  ...")
-
-            ## doParallel
-            cl <- parallel::makeCluster(cluster_core)
-            doParallel::registerDoParallel(cores = cluster_core)
-
-            snps = SlicedData$new()
-            idx_snp <- match(snp4qtl$snp, rownames(gdata))
-            snps$initialize(as.matrix(gdata[idx_snp, ]))
-
-            gene_mat <- t(apply(edata[gene4qtl$gene_name, ], 1, RNOmni::rankNorm))
-            gene = SlicedData$new()
-            gene$initialize(gene_mat)
-
-            eqtl <- Matrix_eQTL_main(
-                snps = snps,
-                gene = gene,
-                snpspos = snp4qtl,
-                genepos = gene4qtl,
-                cvrt = SlicedData$new(),
-                output_file_name = "",
-                output_file_name.cis  = "",
-                pvOutputThreshold = 0,                  ## ignore transQTLs
-                pvOutputThreshold.cis = 1,
-                useModel = modelLINEAR,
-                errorCovariance = numeric(),
-                verbose = TRUE,
-                pvalue.hist = F,
-                cisDist = 500000)
-            cis_eqtls <- eqtl$cis$eqtls
-            save(cis_eqtls, file = "cis_eqtls.Rdata")
-            parallel::stopCluster(cl)
-
-        }
-
-        ###########################################
-        ##  Running cis meQTLs
-        {
-            logging::loginfo("Running meQTLs  ...")
-
-            ## doParallel
-            cl <- parallel::makeCluster(cluster_core)
-            doParallel::registerDoParallel(cores = cluster_core)
-
-            snps = SlicedData$new()
-            idx_snp <- match(snp4qtl$snp, rownames(gdata))
-            snps$initialize(as.matrix(gdata[idx_snp, ]))
-
-            me_mat <- t(apply(mdata[cpg4qtl$cpg, ], 1, RNOmni::rankNorm))
-            cpg_me = SlicedData$new()
-            cpg_me$initialize(me_mat)
-
-            meqtl <- Matrix_eQTL_main(
-                snps = snps,
-                gene = cpg_me,                          ## CpG methylation level
-                snpspos = snp4qtl,
-                genepos = cpg4qtl,                      ## CpG postion
-                cvrt = SlicedData$new(),
-                output_file_name = "",
-                output_file_name.cis  = "",
-                pvOutputThreshold = 0,                  ## ignore transQTLs
-                pvOutputThreshold.cis = 1,
-                useModel = modelLINEAR,
-                errorCovariance = numeric(),
-                verbose = TRUE,
-                pvalue.hist = F,
-                cisDist = 500000)
-            cis_meqtls <- meqtl$cis$eqtls
-            colnames(cis_meqtls)[2] <- "cpg"              ## replacing "gene" to "cpg"
-            save(cis_meqtls, file = "cis_meqtls.Rdata")
-            parallel::stopCluster(cl)
-
         }
     }
 
