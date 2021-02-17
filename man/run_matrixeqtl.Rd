@@ -27,9 +27,9 @@ run_matrixeqtl(
 
 \item{file_tss}{path to TSS bed file}
 
-\item{file_atac}{path to file overlappign snp and ATAC}
+\item{file_atac}{path to overlappiing file of snp and ATAC-seq peaks}
 
-\item{file_ctcf}{path to file overlapping cpgs and ctcf peaks in ENCODE}
+\item{file_ctcf}{path to overlappiing file of cpgs and ctcf peaks in ENCODE}
 
 \item{geneSnpMaxDistance}{max distance between snp and gene, default 500000}
 
@@ -38,5 +38,5 @@ run_matrixeqtl(
 \item{x}{eqtl dataframe, e.g., res$gene}
 }
 \description{
-This will run matrixeQTL
+This will run matrixeQTL for methylation-dependent eQTL
 }
