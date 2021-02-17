@@ -33,7 +33,7 @@ run_me_eQTL(
 
 \item{cpgSnpMaxDistance}{max distance between snp and probe, default 500000}
 
-\item{cluster_core}{doParallel core}
+\item{cluster_core}{doParallel core, default 2 for local}
 
 \item{x}{eqtl dataframe, e.g., res$gene}
 }
