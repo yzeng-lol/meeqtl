@@ -14,7 +14,6 @@
 #' @import GenomicFeatures
 #' @import bigstatsr
 #' @import assertthat
-#' @import MatrixEQTL
 #' @importFrom foreach foreach %dopar%
 #' @importFrom parallel makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
@@ -167,7 +166,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
             cl <- parallel::makeCluster(cluster_core)
             doParallel::registerDoParallel(cores = cluster_core)
 
-            snps = SlicedData$new()
+            snps =  MatrixEQTL::SlicedData$new()
             idx_snp <- match(snp4qtl$snp, rownames(gdata))
             snps$initialize(as.matrix(gdata[idx_snp, ]))
 
@@ -205,7 +204,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
             cl <- parallel::makeCluster(cluster_core)
             doParallel::registerDoParallel(cores = cluster_core)
 
-            snps = SlicedData$new()
+            snps = MatrixEQTL::SlicedData$new()
             idx_snp <- match(snp4qtl$snp, rownames(gdata))
             snps$initialize(as.matrix(gdata[idx_snp, ]))
 
@@ -255,7 +254,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
                             j <- names(cpgs_snps_assoc[i])         ## testing CpG
 
                             ## genotype of snps
-                            snps = SlicedData$new()
+                            snps =  MatrixEQTL::SlicedData$new()
                             snps$initialize(as.matrix(gdata[cpgs_snps_assoc[[i]], na.omit(as.character(sample_info_mat_high[j,]))]))
 
                             ## gene expression for correspoding snps
@@ -310,7 +309,7 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
                 j <- names(cpgs_snps_assoc[i])         ## testing CpG
 
                 ## genotype of snps
-                snps = SlicedData$new()
+                snps =  MatrixEQTL::SlicedData$new()
                 snps$initialize(as.matrix(gdata[cpgs_snps_assoc[[i]], na.omit(as.character(sample_info_mat_low[j,]))]))
 
                 ## gene expression for correspoding snps
