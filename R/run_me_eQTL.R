@@ -57,8 +57,8 @@ run_me_eQTL <- function(file_edata, file_gdata, file_mdata, file_tss_loci, file_
 
             ## Extenting to CpG site centered "cpgSnpMaxDistance * 2" region
             cpg_loci_ext <- GRanges(seqnames = cpg_loci$V1,
-                                    ranges = IRanges(start = cpg_loci$V5 - cpgSnpMaxDistance * 2,
-                                                     end = cpg_loci$V5 + cpgSnpMaxDistance * 2,
+                                    ranges = IRanges(start = cpg_loci$V5 - cpgSnpMaxDistance,
+                                                     end = cpg_loci$V5 + cpgSnpMaxDistance,
                                                      names = cpg_loci$V4))
 
             start(cpg_loci_ext)[start(cpg_loci_ext) < 0] <- 0
