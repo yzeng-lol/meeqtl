@@ -5,6 +5,7 @@
 #' @param file_snp_in_atac  bed file of SNPs located in ATAC distal peak region
 #' @param maf_cut cut-off of MAF,  default 0.05
 #' @param name prefix of output files
+#' @export
 
 init_snp_geno <- function(file_sample_id, file_snp_gt, file_snp_in_atac, maf_cut = 0.05,  name)
 {

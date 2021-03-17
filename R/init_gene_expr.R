@@ -5,6 +5,7 @@
 #' @param file_gene_gtf  file of gene annotation
 #' @param expr_med cut-off of median gene expression,  default 1
 #' @param name prefix of output files
+#' @export
 
 init_gene_expr <- function(file_sample_id, file_gene_expr, file_gene_gtf, expr_med = 1,  name)
 {

@@ -1,6 +1,6 @@
 #' plot_me_eQTLs
 #'
-#' This function will draw combined plots inclduing me_eQTLs, eQTL and meQTL for snp_cpg_gene combinations
+#' This function will draw combined plots inclduing me_eQTLs, eQTL and meQTL for snp_cpg_gene combinations list
 #' @param snp_cpg_gene vector of snp_cpg_gene comination
 #' @param file_edata path to edata file
 #' @param file_gdata path to gdata file
@@ -12,13 +12,97 @@
 #' @import ggplot2
 #' @import RColorBrewer
 #' @importFrom logging loginfo
+#' @export
 #' @examples
 #' snp_cpg_gene <- c("rs28520918_chr6:31402506_POU5F1", "rs1039750_chr11:94603277_SESN3")
 #' plot_me_eQTLs(snp_cpg_gene, file_edata, file_gdata, file_mdata, file_snp_loci, file_res, "me_eQTLs_test")
 
+############################
+## loading data and plotting
+############################
+plot_me_eQTLs <- function(snp_cpg_gene, file_edata, file_gdata, file_mdata, file_tss_loci, file_snp_loci, file_res, name)
+{
+    ## load the genotype, methylation, and gene expression data and me_eQTLs results
+    edata <- read.table(file_edata, header = T, as.is = T)
+    gdata <- read.table(file_gdata, header = T, as.is = T)
+    mdata <- read.table(file_mdata, header = T, as.is = T)
+
+    snp_bed <- read.table(file_snp_loci, as.is = T)
+
+    load(file_res)    # me_eqtl_res.Rdata
+
+    ## putll out data for snp_cpg_gene
+    L <- length(snp_cpg_gene)
+    for(i in 1:L)
+    {
+        ## res from matrixeQTL
+        name <- snp_cpg_gene[i]
+        idx_res <- match(name, rownames(me_eqtl_res))
+
+        ## effect sizes
+        effs <- c(round(me_eqtl_res$me_high_eqtl_beta[idx_res], 2),
+                  round(me_eqtl_res$me_low_eqtl_beta[idx_res], 2),
+                  round(me_eqtl_res$eqtl_beta[idx_res], 2),
+                  round(me_eqtl_res$meqtl_beta[idx_res], 2))
+
+        ## QTLs pvalues
+        pvals <- c(formatC(me_eqtl_res$me_high_eqtl_pvalue[idx_res], format = "e", digits = 2),
+                   formatC(me_eqtl_res$me_low_eqtl_pvalue[idx_res], format = "e", digits = 2),
+                   formatC(me_eqtl_res$eqtl_pvalue[idx_res], format = "e", digits = 2),
+                   formatC(me_eqtl_res$meqtl_pvalue[idx_res], format = "e", digits = 2))
+
+        ## SNP, CpG and Gene IDs
+        snp_id <- strsplit(snp_cpg_gene[i], "_")[[1]][1]
+        cpg_id <- strsplit(snp_cpg_gene[i], "_")[[1]][2]
+        gene_id <- strsplit(snp_cpg_gene[i], "_")[[1]][3]
+
+        ## to genotype
+        idx_snp <- match(snp_id, rownames(gdata))
+        idx_snp_bed <- match(snp_id, snp_bed$V4)
+        homo_ref <- paste0(snp_bed$V7[idx_snp_bed], snp_bed$V7[idx_snp_bed])
+        homo_alt <- paste0(snp_bed$V8[idx_snp_bed], snp_bed$V8[idx_snp_bed])
+        hete  <- paste0(snp_bed$V7[idx_snp_bed], snp_bed$V8[idx_snp_bed])
+
+        #snp_geno <- factor(gdata[idx_snp, ], labels = c(homo_ref, hete, homo_alt))'
+        ## could be only two levels
+        snp_geno <- factor(gdata[idx_snp, ])
+        levels(snp_geno)[levels(snp_geno) == "0"] <- homo_ref
+        levels(snp_geno)[levels(snp_geno) == "1"] <- hete
+        levels(snp_geno)[levels(snp_geno) == "2"] <- homo_alt
+
+        ## methylation level
+        idx_cpg <- match(cpg_id, rownames(mdata))
+        cpg_meth <- as.matrix(mdata[idx_cpg, ])
+
+        ## gene expression level
+        idx_gene <- match(gene_id, rownames(edata))
+        gene_expr <- as.matrix(edata[idx_gene, ])
+
+        ## prefix of output file
+        out_prefix <- name
+
+        ## ploting
+        .plot_cmb(snp_geno, cpg_meth, gene_expr, effs, pvals, out_prefix)
+
+    }
+
+}
+
 ####################
-## plotting function
+##  plotting function
 ####################
+
+#' .plot_cmb
+#'
+#' This function will draw combined plots inclduing me_eQTLs, eQTL and meQTL for each snp_cpg_gene combinations
+#' @param snp_geno vector of snp genotype
+#' @param cpg_meth vector of cpg methylation
+#' @param gene_expr vector of gene expression
+#' @param effs effect sizes of me_eQTLs, eQTL and meQTL
+#' @param effs effect sizes of me_eQTLs, eQTL and meQTL
+#' @param name output plot file name prefix
+#' @import ggplot2
+#' @import RColorBrewer
 
 .plot_cmb <- function(snp_geno, cpg_meth, gene_expr, effs, pvals, name)
 {
@@ -130,74 +214,3 @@
     ggsave(paste0(name, "_me_eQTL.pdf"), width = 8, height = 8)
 
 }
-
-
-############################
-## loading data and plotting
-############################
-{
-    ## load the genotype, methylation, and gene expression data and me_eQTLs results
-    edata <- read.table(file_edata, header = T)
-    gdata <- read.table(file_gdata, header = T)
-    mdata <- read.table(file_mdata, header = T)
-    snp_bed <- read.table(file_snp_loci, as.is = T)
-
-    load(file_res)    # me_eqtl_res.Rdata
-
-    ## putll out data for snp_cpg_gene
-    L <- length(snp_cpg_gene)
-    for(i in 1:L)
-    {
-        ## res from matrixeQTL
-        name <- snp_cpg_gene[i]
-        idx_res <- match(name, rownames(me_eqtl_res))
-
-        ## effect sizes
-        effs <- c(round(me_eqtl_res$me_high_eqtl_beta[idx_res], 2),
-                  round(me_eqtl_res$me_low_eqtl_beta[idx_res], 2),
-                  round(me_eqtl_res$eqtl_beta[idx_res], 2),
-                  round(me_eqtl_res$meqtl_beta[idx_res], 2))
-
-        ## QTLs pvalues
-        pvals <- c(formatC(me_eqtl_res$me_high_eqtl_pvalue[idx_res], format = "e", digits = 2),
-                   formatC(me_eqtl_res$me_low_eqtl_pvalue[idx_res], format = "e", digits = 2),
-                   formatC(me_eqtl_res$eqtl_pvalue[idx_res], format = "e", digits = 2),
-                   formatC(me_eqtl_res$meqtl_pvalue[idx_res], format = "e", digits = 2))
-
-        ## SNP, CpG and Gene IDs
-        snp_id <- strsplit(snp_cpg_gene[i], "_")[[1]][1]
-        cpg_id <- strsplit(snp_cpg_gene[i], "_")[[1]][2]
-        gene_id <- strsplit(snp_cpg_gene[i], "_")[[1]][3]
-
-        ## to genotype
-        idx_snp <- match(snp_id, rownames(gdata))
-        idx_snp_bed <- match(snp_id, snp_bed$V4)
-        homo_ref <- paste0(snp_bed$V7[idx_snp_bed], snp_bed$V7[idx_snp_bed])
-        homo_alt <- paste0(snp_bed$V8[idx_snp_bed], snp_bed$V8[idx_snp_bed])
-        hete  <- paste0(snp_bed$V7[idx_snp_bed], snp_bed$V8[idx_snp_bed])
-
-        #snp_geno <- factor(gdata[idx_snp, ], labels = c(homo_ref, hete, homo_alt))'
-        ## could be only two levels
-        snp_geno <- factor(gdata[idx_snp, ])
-        levels(snp_geno)[levels(snp_geno) == "0"] <- homo_ref
-        levels(snp_geno)[levels(snp_geno) == "1"] <- hete
-        levels(snp_geno)[levels(snp_geno) == "2"] <- homo_alt
-
-        ## methylation level
-        idx_cpg <- match(cpg_id, rownames(mdata))
-        cpg_meth <- as.matrix(mdata[idx_cpg, ])
-
-        ## gene expression level
-        idx_gene <- match(gene_id, rownames(edata))
-        gene_expr <- as.matrix(edata[idx_gene, ])
-
-        ## prefix of output file
-        out_prefix <- name
-
-        ## ploting
-        .plot_cmb(snp_geno, cpg_meth, gene_expr, effs, pvals, out_prefix)
-
-    }
-
-}
-

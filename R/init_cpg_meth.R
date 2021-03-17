@@ -7,6 +7,7 @@
 #' @param meth_h cut-off of high methylation level,  default 0.75
 #' @param name prefix of output files
 #' @import dplyr
+#' @export
 
 init_cpg_meth <- function(file_sample_id, file_cpg_meth, file_cpg_ctcf, meth_l = 0.25, meth_h = 0.75,  name)
 
