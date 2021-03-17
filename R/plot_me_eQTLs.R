@@ -142,7 +142,7 @@
     mdata <- read.table(file_mdata, header = T)
     snp_bed <- read.table(file_snp_loci, as.is = T)
 
-    load("/Users/Yong/Yong/CTCF_methy_QTL/changhai/normal/1_run_meeqtl/me_eqtl_res.Rdata")
+    load(file_res)    # me_eqtl_res.Rdata
 
     ## putll out data for snp_cpg_gene
     L <- length(snp_cpg_gene)
