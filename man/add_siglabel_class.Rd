@@ -17,7 +17,7 @@ add_siglabel_class(x, fdr = 0.1, p = 0.05)
 Will add two columns - sigdelta and class
 }
 \description{
-This function will label eqtl results for their significance or activator/insulator class
+This function will label me_eQTLs results for their significance or activator/insulator class
 }
 \examples{
 load("data/res.Rdata")

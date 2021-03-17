@@ -37,4 +37,5 @@ find_reverse_eqtl(
 }
 \description{
 This will find eQTLs for a subset with a particular methylation probe
+which showing oppostie direction
 }

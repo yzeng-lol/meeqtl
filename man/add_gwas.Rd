@@ -9,12 +9,10 @@ add_gwas(x, file_gwas)
 \arguments{
 \item{x}{dataframe of eqtl result}
 
-\item{fdr}{fdr cutoff; default = 0.1}
-
-\item{p}{p cutoff; default = 0.05}
+\item{file_gwas}{file to gwas information}
 }
 \value{
-Will add two columns - sigdelta and class
+Will add two columns - gwasTrait and gwasP
 }
 \description{
 This function will add GWAS info
