@@ -23,8 +23,4 @@ devtools::install_github("yzeng-lol/meeqtl")
 
 ## How it works
 
-This is schematic diagram shows you how meeqtl works:
-
-``` r
-![Schematic_diagram](man/figures/schematic_diagram.pdf)
-```
+This is schematic diagram shows you how meeqtl works: ![Schematic\_diagram](man/figures/schematic_diagram.pdf)
