@@ -2,7 +2,7 @@ Package: meeqtl
 Type: Package
 Title: The package performs eQTL dependent on CpG methylation
 Version: 0.1.0
-Author: Musaddeque Ahmed and Yong Zeng
+Author: Yong Zeng & Musaddeque Ahmed 
 Maintainer: Yong Zeng <zy_lol@outlook.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
