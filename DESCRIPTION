@@ -1,12 +1,12 @@
 Package: meeqtl
 Type: Package
-Title: The package performs eQTL dependent on CpG methylation
+Title: The package performs CpG sits methylation dependent eQTL (me_eQTL) analysis
 Version: 0.1.0
 Author: Yong Zeng & Musaddeque Ahmed 
 Maintainer: Yong Zeng <zy_lol@outlook.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: This Package perform eQTL, meQTL and me_eQTL analysis simultaneously to explore the concerted effects of genetic
+             variants and DNA-methylation modulated CTCF binding and chromatin 3D structural altering on gene expression regulation.
+License: GPL-version 3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

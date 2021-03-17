@@ -1,10 +1,13 @@
 # meeQTL
 
-The package performs eQTL dependent on CpG methylation
+The package performs CpG methylation dependent eQTL analysis
 
 ### Installation
 
 ```R
-#NOTE: PRIVATE TOKEN IS NEEDED BECAUSE THE REPO IS PRIVATE
 install.packages("devtools")
 devtools::install_github("yzeng-lol/meeqtl", auth_token = "The_token")
+
+#NOTE: WHEN IT IS PRIVATE, A TOKEN IS NEEDED
+devtools::install_github("yzeng-lol/meeqtl", auth_token = "The_token")
+
